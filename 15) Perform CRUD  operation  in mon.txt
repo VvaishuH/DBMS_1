@@ -1,0 +1,62 @@
+15) Perform CRUD  operation  in mongo db –
+  Use : person( person_id, name, addr, profession )
+1.Create Collection.
+2.Inserting data in collection.
+3.Reading data of collection.
+4.Updating data of collection.
+5.Deleting data from collection.
+
+
+Insert a single document:
+
+db.person.insertOne({
+    person_id: 1,
+    name: "John",
+    addr: "123 Main St",
+    profession: "Engineer"
+});
+Insert multiple documents:
+db.person.insertMany([
+    {
+        person_id: 2,
+        name: "Alice",
+        addr: "456 Elm St",
+        profession: "Doctor"
+    },
+    {
+        person_id: 3,
+        name: "Bob",
+        addr: "789 Oak St",
+        profession: "Teacher"
+    }
+]);
+Reading Data:
+
+
+db.person.find();
+Read specific documents:
+
+// Find by person_id
+db.person.find({ person_id: 1 });
+
+// Find by profession
+db.person.find({ profession: "Doctor" });
+Updating Data:
+
+Update multiple documents:
+
+db.person.updateMany(
+    { profession: "Doctor" },
+    { $set: { profession: "Physician" } }
+);
+Deleting Data:
+
+
+Delete multiple documents:
+
+db.person.deleteMany({ profession: "Teacher" });
+These are the basic CRUD operations in MongoDB for the person collection. You can adapt and extend these operations based on your specific data and requirements.
+
+
+
+
