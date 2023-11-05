@@ -1,0 +1,37 @@
+14) Implement Map reduces operation for displaying persons with same profession.
+  Use: person (person_id, name, addr, profession)
+
+To implement a Map-Reduce operation for displaying persons with the same profession using the person collection with fields (person_id, name, addr, profession), you can follow these steps:
+
+Map Function:
+The map function will emit the profession as the key and the person's name as the value. Here's the map function:
+
+var mapFunction = function () {
+    emit(this.profession, this.name);
+};
+Reduce Function:
+The reduce function will group people with the same profession and list their names:
+
+var reduceFunction = function (key, values) {
+    return values.join(', ');
+};
+Execute Map-Reduce:
+Execute the Map-Reduce operation using the map and reduce functions:
+
+db.person.mapReduce(
+    mapFunction,
+    reduceFunction,
+    { out: "persons_by_profession" }
+);
+This code performs the Map-Reduce operation and stores the results in the persons_by_profession collection.
+
+Display the Result:
+To display the result, you can run a simple query:
+
+db.persons_by_profession.find();
+The output will show professions as keys and the names of people with the same profession as values. For example:
+
+
+{ "_id" : "Doctor", "value" : "Alice, Bob" }
+{ "_id" : "Engineer", "value" : "Charlie, David" }
+{ "_id" : "Teacher", "value" : "Eve, Frank, Grace" }
