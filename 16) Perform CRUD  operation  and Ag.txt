@@ -1,0 +1,49 @@
+16) Perform CRUD  operation  and Aggregation in mongo db
+employee(emp_id,e_name,salary ,Date of Joining,Dapt_no,Designation)
+1. Display the count of employee department wise.
+2. Display the average salary of employee in sales department.
+3. Display minimum salary to employees joins in June 2016
+4. Display maximum salary given to employee in production department.
+5. Display record of first and last employee department wise.
+
+
+Display the count of employees department-wise:
+
+
+db.employee.aggregate([
+    { $group: { _id: "$Dapt_no", count: { $sum: 1 } } }
+]);
+This query groups employees by department number (Dapt_no) and counts the number of employees in each department.
+
+Display the average salary of employees in the sales department:
+
+db.employee.aggregate([
+    { $match: { Dapt_no: "sales" } },
+    { $group: { _id: null, avgSalary: { $avg: "$salary" } } }
+]);
+This query first filters employees in the sales department and then calculates the average salary for those employees.
+
+Display the minimum salary of employees who joined in June 2016:
+
+
+db.employee.aggregate([
+    { $match: { "Date of Joining": { $gte: ISODate("2016-06-01"), $lt: ISODate("2016-07-01") } } },
+    { $group: { _id: null, minSalary: { $min: "$salary" } } }
+]);
+This query filters employees who joined in June 2016 and finds the minimum salary among them.
+
+Display the maximum salary given to employees in the production department:
+
+db.employee.aggregate([
+    { $match: { Dapt_no: "production" } },
+    { $group: { _id: null, maxSalary: { $max: "$salary" } } }
+]);
+This query first filters employees in the production department and then calculates the maximum salary for those employees.
+
+Display the record of the first and last employee in each department:
+
+
+db.employee.aggregate([
+    { $sort: { Dapt_no: 1, "Date of Joining": 1 } },
+    { $group: { _id: "$Dapt_no", firstEmployee: { $first: "$$ROOT" }, lastEmployee: { $last: "$$ROOT" } } }
+]);
