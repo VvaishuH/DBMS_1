@@ -1,0 +1,63 @@
+11) Implement CRUD operations. SAVE method. Use following Collection.
+Item: Item ID, Item quantity, price, brand, discount
+1. Display the count of item brand wise.
+2. Dsiplay item with minimum price.
+3. Display maximum discount given for item.
+
+To implement CRUD operations for the given collection and perform the specified operations, you can use a programming language like Python. Here's a sample implementation using Python dictionaries:
+
+
+# Sample collection
+items = [
+    {
+        "Item ID": 1,
+        "Item quantity": 10,
+        "price": 50,
+        "brand": "Brand A",
+        "discount": 5,
+    },
+    {
+        "Item ID": 2,
+        "Item quantity": 5,
+        "price": 30,
+        "brand": "Brand B",
+        "discount": 10,
+    },
+    {
+        "Item ID": 3,
+        "Item quantity": 20,
+        "price": 40,
+        "brand": "Brand A",
+        "discount": 15,
+    },
+    {
+        "Item ID": 4,
+        "Item quantity": 15,
+        "price": 20,
+        "brand": "Brand C",
+        "discount": 8,
+    },
+]
+
+# 1. Display the count of items brand wise
+brand_counts = {}
+for item in items:
+    brand = item["brand"]
+    if brand in brand_counts:
+        brand_counts[brand] += 1
+    else:
+        brand_counts[brand] = 1
+
+print("Count of items brand-wise:")
+for brand, count in brand_counts.items():
+    print(f"{brand}: {count}")
+
+# 2. Display the item with the minimum price
+min_price_item = min(items, key=lambda item: item["price"])
+print("Item with the minimum price:")
+print(min_price_item)
+
+# 3. Display the maximum discount given for an item
+max_discount_item = max(items, key=lambda item: item["discount"])
+print("Item with the maximum discount:")
+print(max_discount_item)
