@@ -1,0 +1,33 @@
+25) Implement aggregation and indexing with suitable example in mongodb.    
+In MongoDB, you can implement aggregation and indexing to perform data processing and improve query performance. Let's walk through an example of how to do this:
+
+Suppose we have a MongoDB collection named "sales" with documents representing sales transactions. Each document has the following structure:
+
+{
+  "_id": ObjectId("5f7a3bfe3b784f5e245bd5c4"),
+  "product": "Widget",
+  "quantity": 10,
+  "price": 20.0,
+  "date": ISODate("2023-10-05T10:15:00Z"),
+  "store": "Store A"
+}
+Aggregation: Calculate the total sales and the average price for each product.
+db.sales.aggregate([
+  {
+    $group: {
+      _id: "$product",
+      totalSales: { $sum: { $multiply: ["$quantity", "$price"] } },
+      averagePrice: { $avg: "$price" }
+    }
+  }
+])
+In this aggregation pipeline:
+
+$group groups the documents by the "product" field.
+$sum calculates the total sales by multiplying "quantity" and "price."
+$avg calculates the average price.
+
+Indexing: To improve query performance, you can create an index on the "product" field since you often query based on that field.
+db.sales.createIndex({ "product": 1 })
+This will create an ascending index on the "product" field.
+
