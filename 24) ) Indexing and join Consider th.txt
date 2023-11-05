@@ -1,0 +1,66 @@
+24) ) Indexing and join: Consider the relation
+ employee (emp_id,e_name,salary ,Date of Joining,Dapt_no,Designation)
+Customer(c_id, c_name , email , city , pincode)Order(order_id , date , amount , cust_id.
+       a. create empid as primary key and indices on table employee.
+      b.  create user defined index on any column
+      c. create sequence using auo-increment.
+      d. truncate table.
+      e. find list of customers who placed order and details of their orders.
+      f. find info of customers and append order details to the table/
+      g. list down customers who haven’t placed order.
+In a relational database management system (RDBMS), you can perform the tasks you've mentioned using SQL. Let's go through each of them step by step:
+
+a. Create "emp_id" as the primary key and indices on the "employee" table:
+
+-- Create the "employee" table with emp_id as the primary key
+CREATE TABLE employee (
+    emp_id INT PRIMARY KEY,
+    e_name VARCHAR(255),
+    salary DECIMAL(10, 2),
+    Date_of_Joining DATE,
+    Dept_no INT,
+    Designation VARCHAR(255)
+);
+
+-- Create an index on the "salary" column
+CREATE INDEX idx_salary ON employee(salary);
+
+-- Create an index on the "Date_of_Joining" column
+CREATE INDEX idx_date_of_joining ON employee(Date_of_Joining);
+b. Create a user-defined index on any column. In most SQL databases, the default indexes are B-tree indexes, and you typically don't need to create user-defined indexes manually. However, you can create a unique index on a column to enforce uniqueness:
+
+-- Create a unique index on the "e_name" column
+CREATE UNIQUE INDEX idx_unique_e_name ON employee(e_name);
+c. Create a sequence using auto-increment. The specific syntax may vary depending on the database system you are using. Here's an example using PostgreSQL:
+
+-- Create a sequence for generating auto-incremented emp_id values
+CREATE SEQUENCE emp_id_seq START 1;
+d. Truncate the "employee" table to remove all its data:
+
+-- Truncate the "employee" table
+TRUNCATE TABLE employee;
+e. Find a list of customers who placed orders and details of their orders:
+
+-- List of customers who placed orders and details of their orders
+SELECT c.c_name, o.order_id, o.date, o.amount
+FROM Customer c
+JOIN Order o ON c.c_id = o.cust_id;
+f. Find customer information and append order details to the table:
+
+-- Append order details to the customer information
+SELECT c.*, o.order_id, o.date, o.amount
+FROM Customer c
+LEFT JOIN Order o ON c.c_id = o.cust_id;
+g. List down customers who haven't placed orders:
+
+
+-- List of customers who haven't placed orders
+SELECT c.c_name
+FROM Customer c
+LEFT JOIN Order o ON c.c_id = o.cust_id
+WHERE o.order_id IS NULL;
+Please note that the SQL syntax may vary slightly depending on the RDBMS you are using (e.g., MySQL, PostgreSQL, SQL Server). Be sure to adapt the syntax as needed for your specific database system.
+
+
+
+
