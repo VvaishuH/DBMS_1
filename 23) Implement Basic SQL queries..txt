@@ -1,0 +1,74 @@
+23) Implement Basic SQL queries.
+1.  Create table employee.
+2.  Insert 10 records in table.
+3. Create a view emp_vl of table employee which  has emp_id , name and dept-attributes.
+4. Display name and department of employee working in Manager or Marketing department
+5. Display employees who were hired earliest or latest.
+6. Display name and department no of employees who are manager, market analysts. Use  
+    Predicates
+List employees hired in August.
+ List employees who are hired after 31/12/2006.
+To implement these basic SQL queries, you'll need to have access to a relational database management system (RDBMS) such as MySQL, PostgreSQL, SQLite, or SQL Server. Here's how you can execute these queries in SQL:
+
+Create the "employee" table:
+
+CREATE TABLE employee (
+    emp_id INT PRIMARY KEY,
+    name VARCHAR(255),
+    dept VARCHAR(50),
+    hire_date DATE
+);
+Insert 10 records into the "employee" table:
+sql
+
+INSERT INTO employee (emp_id, name, dept, hire_date) VALUES
+(1, 'John Doe', 'Manager', '2006-01-15'),
+(2, 'Jane Smith', 'Marketing', '2007-08-20'),
+(3, 'Alice Johnson', 'Sales', '2008-05-10'),
+(4, 'Bob Brown', 'Marketing', '2010-11-30'),
+(5, 'Eve White', 'IT', '2005-04-25'),
+(6, 'Charlie Davis', 'Manager', '2009-09-05'),
+(7, 'Grace Lee', 'Finance', '2012-03-12'),
+(8, 'David Wilson', 'Marketing', '2006-08-08'),
+(9, 'Olivia Martin', 'Manager', '2011-02-18'),
+(10, 'Frank Harris', 'Marketing', '2004-12-22');
+Create a view "emp_vl" of the "employee" table with "emp_id," "name," and "dept" attributes:
+
+CREATE VIEW emp_vl AS
+SELECT emp_id, name, dept
+FROM employee;
+Display the name and department of employees working in the Manager or Marketing department:
+
+SELECT name, dept
+FROM employee
+WHERE dept IN ('Manager', 'Marketing');
+Display employees who were hired earliest or latest:
+-- Employees hired earliest
+SELECT name, hire_date
+FROM employee
+WHERE hire_date = (SELECT MIN(hire_date) FROM employee)
+UNION
+-- Employees hired latest
+SELECT name, hire_date
+FROM employee
+WHERE hire_date = (SELECT MAX(hire_date) FROM employee);
+Display the name and department number of employees who are managers or market analysts using predicates:
+
+SELECT name, dept
+FROM employee
+WHERE dept LIKE 'Manager' OR dept LIKE 'Marketing Analyst';
+List employees hired in August:
+
+SELECT name, hire_date
+FROM employee
+WHERE EXTRACT(MONTH FROM hire_date) = 8;
+List employees who were hired after December 31, 2006:
+SELECT name, hire_date
+FROM employee
+WHERE hire_date > '2006-12-31';
+These SQL queries should work with most standard SQL databases. Make sure to adjust the syntax if you are using a specific database system, as there may be slight differences in SQL syntax and date functions between different database engines.
+
+
+
+
+
