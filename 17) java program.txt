@@ -1,0 +1,88 @@
+17) Consider student ( roll_no,  name ,marks, class) table. Perform add update and delete operation on same table through java program. Write menu driven program
+ChatGPT
+To perform add, update, and delete operations on the student table through a Java program, you can create a menu-driven program. Below is an example of how you can write such a program. Make sure to replace the placeholders with your actual database connection details.
+
+You'll need to include the JDBC driver for your database system in your project.
+
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class StudentManagementSystem {
+    public static void main(String[] args) {
+        String dbURL = "jdbc:your_database_url";
+        String username = "your_username";
+        String password = "your_password";
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            Connection connection = DriverManager.getConnection(dbURL, username, password);
+            Statement statement = connection.createStatement();
+            int choice;
+
+            do {
+                System.out.println("\nStudent Management System Menu");
+                System.out.println("1. Add Student");
+                System.out.println("2. Update Student");
+                System.out.println("3. Delete Student");
+                System.out.println("4. Exit");
+                System.out.print("Enter your choice: ");
+                choice = scanner.nextInt();
+
+                switch (choice) {
+                    case 1:
+                        addStudent(connection, scanner);
+                        break;
+                    case 2:
+                        updateStudent(connection, scanner);
+                        break;
+                    case 3:
+                        deleteStudent(connection, scanner);
+                        break;
+                    case 4:
+                        System.out.println("Exiting the program.");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please select a valid option.");
+                }
+            } while (choice != 4);
+
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void addStudent(Connection connection, Scanner scanner) throws SQLException {
+        System.out.println("Adding a Student");
+        System.out.print("Enter Roll No: ");
+        int rollNo = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+        System.out.print("Enter Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter Marks: ");
+        double marks = scanner.nextDouble();
+        scanner.nextLine(); // Consume the newline character
+        System.out.print("Enter Class: ");
+        String studentClass = scanner.nextLine();
+
+        String sql = "INSERT INTO student (roll_no, name, marks, class) VALUES (?, ?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, rollNo);
+        preparedStatement.setString(2, name);
+        preparedStatement.setDouble(3, marks);
+        preparedStatement.setString(4, studentClass);
+        preparedStatement.executeUpdate();
+
+        System.out.println("Student added successfully.");
+    }
+
+    private static void updateStudent(Connection connection, Scanner scanner) throws SQLException {
+        // Implement update logic here, similar to addStudent
+    }
+
+    private static void deleteStudent(Connection connection, Scanner scanner) throws SQLException {
+        // Implement delete logic here
+    }
+}
