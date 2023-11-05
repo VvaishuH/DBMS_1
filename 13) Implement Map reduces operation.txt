@@ -1,0 +1,38 @@
+13) Implement Map reduces operation for counting the marks of students.
+  Use: student (roll_no, name marks, class)
+
+To implement a Map-Reduce operation to count the marks of students in a MongoDB collection, you can follow these steps using the student collection with the given fields (roll_no, name, marks, class). The expected output will be the student's name or roll number and the total marks they have scored.
+
+Map Function:
+The map function will emit the student's name or roll number as the key and their marks as the value. Here's the map function:
+
+
+var mapFunction = function () {
+    emit(this.roll_no + " - " + this.name, this.marks);
+};
+Reduce Function:
+The reduce function will sum up the marks for each student:
+
+var reduceFunction = function (key, values) {
+    return Array.sum(values);
+};
+Execute Map-Reduce:
+Execute the Map-Reduce operation using the map and reduce functions:
+
+
+db.student.mapReduce(
+    mapFunction,
+    reduceFunction,
+    { out: "student_total_marks" }
+);
+This code performs the Map-Reduce operation, and the results are stored in the student_total_marks collection.
+
+Display the Result:
+To display the result, you can run a simple query:
+
+db.student_total_marks.find();
+The output will show the student's name or roll number and their total marks. For example:
+
+{ "_id" : "101 - John", "value" : 450 }
+{ "_id" : "102 - Alice", "value" : 490 }
+{ "_id" : "103 - Bob", "value" : 520 }
