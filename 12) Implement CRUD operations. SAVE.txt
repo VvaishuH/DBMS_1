@@ -1,0 +1,38 @@
+12) Implement CRUD operations. SAVE method. Use following Collection.
+Item: Item ID, Item quantity, price, brand, discount
+1. Display the count of item brand wise.
+2. Dsiplay item with minimum price.
+3. Display maximum discount given for item.
+
+ement CRUD operations with a SAVE method for the Item collection and perform the requested operations, you can use a NoSQL database like MongoDB. Here are the operations:
+
+Display the count of items brand-wise:
+
+
+To impldb.Item.aggregate([
+    {
+        $group: {
+            _id: "$brand",
+            count: { $sum: 1 }
+        }
+    }
+]);
+This MongoDB aggregation query groups items by their brand and counts the number of items for each brand.
+
+Display the item with the minimum price:
+
+db.Item.find().sort({ price: 1 }).limit(1);
+This query retrieves the item with the minimum price by sorting the items by the price field in ascending order and limiting the result to one item.
+
+Display the maximum discount given for an item:
+
+db.Item.aggregate([
+    {
+        $group: {
+            _id: null,
+            maxDiscount: { $max: "$discount" }
+        }
+    }
+]);
+This aggregation query calculates the maximum discount across all items in the Item collection.
+
