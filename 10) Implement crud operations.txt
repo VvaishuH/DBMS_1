@@ -1,0 +1,39 @@
+10) Implement CRUD operations. SAVE method. Use following Collection. Perform Map Reduce to count quantity of each item.
+Item: Item ID, Item quantity, price, brand, discount
+1. Display the count of item brand wise.
+2. Dsiplay item with minimum price.
+3. Display maximum discount given for item.
+
+
+
+To implement CRUD operations with a SAVE method for the Item collection and perform Map-Reduce to count the quantity of each item, you can use MongoDB. Here are the operations you've requested:
+
+Display the count of items brand-wise using Map-Reduce:
+
+var mapFunction = function() {
+    emit(this.brand, 1);
+};
+
+var reduceFunction = function(brand, counts) {
+    return Array.sum(counts);
+};
+
+// Execute Map-Reduce
+db.Item.mapReduce(
+    mapFunction,
+    reduceFunction,
+    { out: "brand_counts" }
+);
+
+// Display the result
+db.brand_counts.find();
+This code creates a Map-Reduce job to count the number of items for each brand and stores the results in the brand_counts collection.
+
+Display the item with the minimum price:
+db.Item.find().sort({ price: 1 }).limit(1);
+This query retrieves the item with the minimum price by sorting the items by the price field in ascending order and limiting the result to one item.
+
+Display the maximum discount given for an item:
+db.Item.aggregate([
+    { $group: { _id: null, maxDiscount: { $max: "$discount" } } }
+]);
